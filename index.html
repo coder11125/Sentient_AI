@@ -164,7 +164,7 @@
         <!-- Chat list -->
         <div id="chatListContainer" class="flex-grow overflow-y-auto custom-scrollbar pr-2">
             <ul id="chatList" class="space-y-2">
-                <li class="p-3 text-center text-gray-500 sidebar-text">Chat history is disabled in local mode.</li>
+                <li id="chatHistoryPlaceholder" class="p-3 text-center text-gray-500 sidebar-text">Chat history is not enabled.</li>
             </ul>
         </div>
 
@@ -177,7 +177,7 @@
                     </div>
                     <div class="sidebar-text overflow-hidden">
                         <p id="userName" class="font-semibold text-sm text-gray-700 dark:text-gray-200 truncate">Demo</p>
-                        <p id="userIdDisplay" class="text-xs text-gray-500 dark:text-gray-400 truncate">Local Mode</p>
+                        <p id="userIdDisplay" class="text-xs text-gray-500 dark:text-gray-400 truncate">user_123456</p>
                     </div>
                 </div>
                 <div id="userActions" class="flex items-center gap-1">
@@ -292,6 +292,24 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path></svg>
                                 <span>Attach file</span>
                             </button>
+
+                            <div class="border-t border-gray-200 dark:border-gray-700 my-1"></div>
+
+                            <div class="px-3 py-2">
+                                <label for="modelSelectDropdown" class="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">
+                                    Text Model
+                                </label>
+                                <select id="modelSelectDropdown" class="w-full p-1.5 text-sm border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                                    <option value="gemini-2.5-flash-preview-05-20">Flash (Fast)</option>
+                                    <option value="gemini-1.5-pro-preview-05-20">Pro (Advanced)</option>
+                                    <option value="gemini-1.5-pro-preview-05-20">Best (Smart)</option>
+                                    <option value="gemini-1.5-pro-preview-05-20">Claude Sonnet 4.5</option>
+                                    <option value="gemini-1.5-pro-preview-05-20">Claude Opus 4.1</option>
+                                    <option value="gemini-1.5-pro-preview-05-20">GPT-5 mini</option>
+                                    <option value="gemini-1.5-pro-preview-05-20">GPT-5</option>
+                                    <option value="gemini-1.5-pro-preview-05-20">Perplexity Sonar</option>
+                                </select>
+                            </div>
                         </nav>
                     </div>
                 </div>
@@ -326,8 +344,60 @@
                 <h3 class="font-bold text-lg">Settings</h3>
                 <button id="closeSettingsBtn" class="p-2 rounded-full text-2xl leading-none hover:bg-gray-200 dark:hover:bg-gray-700">&times;</button>
             </header>
-            <div class="p-6">
-                <p class="text-gray-600 dark:text-gray-400">Settings and user profile options will be available here in a future update.</p>
+            <div class="p-6 space-y-4">
+                <div>
+                    <label for="modelSelect" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        Select Text Model
+                    </label>
+                    <select id="modelSelect" class="w-full p-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                        <option value="gemini-2.5-flash-preview-05-20">Gemini Flash (Fast)</option>
+                        <option value="gemini-1.5-pro-preview-05-20">Gemini Pro (Advanced)</option>
+                        <option value="gemini-1.5-pro-preview-05-20">Best (Smart)</option>
+                        <option value="gemini-1.5-pro-preview-05-20">Claude Sonnet 4.5</option>
+                        <option value="gemini-1.5-pro-preview-05-20">Claude Opus 4.1</option>
+                        <option value="gemini-1.5-pro-preview-05-20">GPT-5 mini</option>
+                        <option value="gemini-1.5-pro-preview-05-20">GPT-5</option>
+                        <option value="gemini-1.5-pro-preview-05-20">Perplexity Sonar</option>
+                    </select>
+                </div>
+
+                <!-- New Dropdown for Appropriateness -->
+                <div>
+                    <label for="appropriatenessSelect" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        Response Appropriateness
+                    </label>
+                    <select id="appropriatenessSelect" class="w-full p-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                        <option value="default">Default</option>
+                        <option value="grade-2">Grade 2</option>
+                        <option value="grade-3">Grade 3</option>
+                        <option value="grade-4">Grade 4</option>
+                        <option value="grade-5">Grade 5</option>
+                        <option value="grade-6">Grade 6</option>
+                        <option value="grade-7">Grade 7</option>
+                        <option value="grade-8">Grade 8</option>
+                        <option value="grade-9">Grade 9</option>
+                        <option value="grade-10">Grade 10</option>
+                        <option value="grade-11">Grade 11</option>
+                        <option value="grade-12">Grade 12</option>
+                        <option value="college">College</option>
+                        <option value="business">Business</option>
+                    </select>
+                </div>
+
+                <!-- Chat History Toggle -->
+                <div class="flex items-center justify-between">
+                    <label for="chatHistoryToggle" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Enable Chat History
+                    </label>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" id="chatHistoryToggle" class="sr-only peer">
+                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600"></div>
+                    </label>
+                </div>
+
+                <p class="text-xs text-gray-500 dark:text-gray-400">
+                    Your selection applies to chat, code, ideas, and learning modules. Image generation uses a separate model.
+                </p>
             </div>
         </div>
     </div>
@@ -350,6 +420,9 @@
         let currentChatMessages = [];
         let attachedFile = null;
         let isSidebarLocked = false;
+        let currentTextModel = localStorage.getItem('textModel') || "gemini-2.5-flash-preview-05-20";
+        let currentAppropriateness = localStorage.getItem('appropriateness') || "default"; // New state
+        let isChatHistoryEnabled = localStorage.getItem('chatHistoryEnabled') === 'true'; // New state
         
         // --- API Configuration ---
         const API_KEY = "AIzaSyCiX18zGfJV67xDWAoeJ36QrJjwgD8G_ZM"; // Shashvath's API Key
@@ -393,6 +466,10 @@
             settingsModal: document.getElementById('settingsModal'),
             settingsBtn: document.getElementById('settingsBtn'),
             closeSettingsBtn: document.getElementById('closeSettingsBtn'),
+            modelSelect: document.getElementById('modelSelect'),
+            modelSelectDropdown: document.getElementById('modelSelectDropdown'),
+            appropriatenessSelect: document.getElementById('appropriatenessSelect'), // Added
+            chatHistoryToggle: document.getElementById('chatHistoryToggle'), // Added
             // Learning Module
             learningModal: document.getElementById('learningModal'),
             learningModuleTitle: document.getElementById('learningModuleTitle'),
@@ -400,6 +477,7 @@
             closeLearningBtn: document.getElementById('closeLearningBtn'),
             // Voice Status
             voiceStatus: document.getElementById('voiceStatus'),
+            userIdDisplay: document.getElementById('userIdDisplay'), // <<< FIXED: Added this line
         };
 
         // --- UI Functions ---
@@ -439,6 +517,9 @@
         };
         
         const openSettingsModal = () => {
+            dom.modelSelect.value = currentTextModel; // Set dropdown to current model
+            dom.appropriatenessSelect.value = currentAppropriateness; // Set new dropdown
+            dom.chatHistoryToggle.checked = isChatHistoryEnabled; // Set toggle state
             dom.settingsModal.classList.remove('hidden');
             dom.settingsModal.classList.add('flex');
         };
@@ -468,6 +549,36 @@
         const closeOptionsDropdown = () => {
             dom.optionsDropdown.classList.add('hidden');
             dom.optionsToggleBtn.setAttribute('aria-expanded', 'false');
+        };
+        
+        const updateModelSelection = (newModel) => {
+            currentTextModel = newModel;
+            localStorage.setItem('textModel', currentTextModel);
+            dom.modelSelect.value = newModel; // Sync settings modal
+            dom.modelSelectDropdown.value = newModel; // Sync dropdown
+        };
+
+        const handleModelChange = (e) => {
+            updateModelSelection(e.target.value);
+        };
+        
+        const handleAppropriatenessChange = (e) => {
+            currentAppropriateness = e.target.value;
+            localStorage.setItem('appropriateness', currentAppropriateness);
+        };
+
+        const handleChatHistoryToggle = (e) => {
+            isChatHistoryEnabled = e.target.checked;
+            localStorage.setItem('chatHistoryEnabled', isChatHistoryEnabled);
+            updateChatHistoryUI();
+        };
+
+        const updateChatHistoryUI = () => {
+            const placeholder = document.getElementById('chatHistoryPlaceholder');
+            if (placeholder) {
+                placeholder.textContent = isChatHistoryEnabled ? 'No chats saved yet.' : 'Chat history is not enabled.';
+            }
+            // Future logic to show/hide actual chat list would go here
         };
 
         const showPreview = (code, language) => {
@@ -609,13 +720,32 @@
         };
 
         // --- Core Logic & Gemini Features ---
+        const getAppropriatenessInstruction = () => {
+            if (currentAppropriateness === "default" || !currentAppropriateness) {
+                return ""; // No instruction
+            }
+            
+            let level = currentAppropriateness;
+            if (level.startsWith("grade-")) {
+                level = `a ${level.replace("-", " ")} level`;
+            } else {
+                level = `a ${level} level`;
+            }
+            
+            return ` Please tailor your response to be appropriate for ${level}.`;
+        };
+
         const initialize = () => {
             tailwind.config = {
               darkMode: 'class'
             };
             initTheme();
             setupEventListeners();
+            dom.modelSelectDropdown.value = currentTextModel; // Set initial value for dropdown
+            dom.chatHistoryToggle.checked = isChatHistoryEnabled; // Set initial toggle state
+            updateChatHistoryUI(); // Set initial UI for chat history
             dom.placeholder.classList.remove('hidden');
+            dom.userIdDisplay.textContent = `user_${crypto.randomUUID().slice(0, 8)}`;
         };
 
         const handleFileSelect = (event) => {
@@ -754,6 +884,12 @@
             dom.themeToggleBtn.addEventListener('click', cycleTheme);
             dom.settingsBtn.addEventListener('click', openSettingsModal);
             dom.closeSettingsBtn.addEventListener('click', closeSettingsModal);
+            dom.modelSelect.addEventListener('change', handleModelChange); // Handle model change
+            dom.appropriatenessSelect.addEventListener('change', handleAppropriatenessChange); // New listener
+            dom.chatHistoryToggle.addEventListener('change', handleChatHistoryToggle); // New listener
+            dom.modelSelectDropdown.addEventListener('change', handleModelChange); // Handle model change for dropdown
+            // Prevent dropdown from closing when clicking the select
+            dom.modelSelectDropdown.addEventListener('click', (e) => e.stopPropagation());
             dom.closeLearningBtn.addEventListener('click', closeLearningModal);
 
             // New Dropdown Listeners
@@ -807,9 +943,10 @@
             }
             addLoadingIndicator('Summarizing...');
             const conversation = currentChatMessages.map(m => `${m.role}: ${m.text}`).join('\n');
-            const prompt = `Provide a concise summary of the key points from the following conversation:\n\n${conversation}`;
+            const instruction = getAppropriatenessInstruction();
+            const prompt = `Provide a concise summary of the key points from the following conversation.${instruction}\n\n${conversation}`;
              try {
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${API_KEY}`;
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${currentTextModel}:generateContent?key=${API_KEY}`;
                 const payload = { contents: [{ parts: [{ text: prompt }] }] };
                 const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
                 if (!response.ok) throw new Error('Failed to get summary');
@@ -856,10 +993,11 @@
         
         const generateCode = async (language, prompt) => {
             addLoadingIndicator(`Generating ${language} code...`);
-            const fullPrompt = `Generate a single, self-contained ${language} file for the following request: "${prompt}". Include all necessary code. For HTML, include CSS (using Tailwind classes) and JavaScript in the same file. The code should be complete and runnable. Respond with only the code block itself, without any explanation or markdown formatting.`;
+            const instruction = getAppropriatenessInstruction();
+            const fullPrompt = `Generate a single, self-contained ${language} file for the following request: "${prompt}".${instruction} Include all necessary code. For HTML, include CSS (using Tailwind classes) and JavaScript in the same file. The code should be complete and runnable. Respond with only the code block itself, without any explanation or markdown formatting.`;
             
             try {
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${API_KEY}`;
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${currentTextModel}:generateContent?key=${API_KEY}`;
                 const payload = { contents: [{ parts: [{ text: fullPrompt }] }] };
                 const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
 
@@ -884,10 +1022,11 @@
 
         const generateIdeas = async (prompt) => {
             addLoadingIndicator('Brainstorming ideas...');
-            const fullPrompt = `Brainstorm a list of creative and diverse ideas about: "${prompt}". Please format the response clearly using markdown lists.`;
+            const instruction = getAppropriatenessInstruction();
+            const fullPrompt = `Brainstorm a list of creative and diverse ideas about: "${prompt}".${instruction} Please format the response clearly using markdown lists.`;
             
             try {
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${API_KEY}`;
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${currentTextModel}:generateContent?key=${API_KEY}`;
                 const payload = { contents: [{ parts: [{ text: fullPrompt }] }] };
                 const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
 
@@ -914,7 +1053,8 @@
             dom.learningModuleTitle.textContent = `Learning: ${topic}`;
             dom.learningModuleContent.innerHTML = `<div class="flex justify-center items-center h-full"><div class="text-center"><p class="mb-2">Generating your lesson...</p><div class="w-8 h-8 border-4 border-green-500 border-t-transparent rounded-full animate-spin mx-auto"></div></div></div>`;
 
-            const prompt = `Act as an expert tutor. Create a structured learning module for a beginner about "${topic}". The module must be in valid JSON format and follow this exact schema:
+            const instruction = getAppropriatenessInstruction();
+            const prompt = `Act as an expert tutor. Create a structured learning module for a beginner about "${topic}".${instruction} The module must be in valid JSON format and follow this exact schema:
             {
               "title": "Module Title",
               "introduction": "A brief, engaging introduction to the topic.",
@@ -935,7 +1075,7 @@
             Ensure all content is clear, concise, and beginner-friendly. The response must only be the JSON object, with no extra text or markdown formatting.`;
 
             try {
-                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${API_KEY}`;
+                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${currentTextModel}:generateContent?key=${API_KEY}`;
                  const payload = { contents: [{ parts: [{ text: prompt }] }], generationConfig: { responseMimeType: "application/json" } };
                  const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
 
@@ -1069,12 +1209,22 @@
             addLoadingIndicator();
             
             try {
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${API_KEY}`;
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${currentTextModel}:generateContent?key=${API_KEY}`;
                 
                 const parts = [];
-                if (messageText) {
-                    parts.push({ text: messageText });
+                const instruction = getAppropriatenessInstruction();
+                
+                let userText = messageText;
+                if (instruction && messageText) {
+                    userText = `${instruction} My request is: "${messageText}"`;
+                } else if (instruction && !messageText) {
+                    userText = instruction; // Send instruction as text part
                 }
+                
+                if (userText) {
+                    parts.push({ text: userText });
+                }
+                
                 if (fileToSend) { 
                      parts.push({
                         inlineData: {
@@ -1118,10 +1268,4 @@
     </script>
 </body>
 </html>
-
-
-
-
-
-
 
